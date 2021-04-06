@@ -13,7 +13,7 @@ app.use(express.urlencoded())
 app.use(express.json())
 // View Engine Setup 
 
-app.set('views', path.join(__dirname, './views')) 
+app.set('views', path.join(__dirname, '../views')) 
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {

@@ -8,10 +8,95 @@
     <title>Chat Application</title>
     <script src="/socket.io/socket.io.js"></script>
     <!-- <script type="text/javascript" src="./static/client.js"></script> -->
-    <link rel="stylesheet" href="./static/main.css">
+    <style>
+        .main-container {
+            display: block;
+            margin: 0px auto;
+            width: 70%;
+            height: 500px;
+            background: #d8e6fe;
+            overflow-x: hidden;
+            border-radius: 4px;
+        }
+
+        .sendmsg {
+            float: right;
+            clear: both;
+            margin: 11px 14px;
+            max-width: 400px;
+            background: white;
+            padding: 13px;
+            border: 2px;
+            border-radius: 17px;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .recmsg {
+            float: left;
+            clear: both;
+            margin: 11px 14px;
+            max-width: 400px;
+            background: white;
+            padding: 13px;
+            border: 2px;
+            border-radius: 17px;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        #form {
+            width: 70%;
+            display: block;
+            margin: 6px auto;
+
+        }
+
+        #form input {
+            width: 86%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 22px;
+            border-radius: 22px;
+            border: none;
+            padding: 11px;
+            outline: none;
+
+        }
+
+        #headid {
+            display: block;
+            margin: 0px auto;
+            margin-top: 20px;
+            width: 70%;
+            height: 40px;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+
+        #headid p {
+            margin: 0px;
+        }
+
+        .btn {
+            margin: 0px;
+            padding: 0px;
+            width: 92px;
+            height: 51px;
+            font-size: 27px;
+            border-radius: 22px;
+            border-style: none;
+        }
+    </style>
 </head>
+
 <body style="    background: #8e91ff;">
-    <header id="headid">Total Online Users<p id="onlinecounter"><%=count%></p>
+    <header id="headid">Total Online Users<p id="onlinecounter">
+            <%=count%>
+        </p>
     </header>
     <div class="main-container" id="message">
     </div>
@@ -70,7 +155,7 @@
             const msgcontainer = document.createElement('h2')
             msgcontainer.classList.add('recmsg')
             msgcontainer.innerText = `${data.name}:- ${data.message}`;
-            message.appendChild(msgcontainer)    
+            message.appendChild(msgcontainer)
         });
 
     </script>
