@@ -1,0 +1,81 @@
+.main-container {
+    display: block;
+    margin: 0px auto;
+    width: 70%;
+    height: 500px;
+    background: #d8e6fe;
+    overflow-x: hidden;
+    border-radius: 4px;
+}
+
+.sendmsg {
+    float: right;
+    clear: both;
+    margin: 11px 14px;
+    max-width: 400px;
+    background: white;
+    padding: 13px;
+    border: 2px;
+    border-radius: 17px;
+    text-align: center;
+    word-break: break-all;
+}
+
+.recmsg {
+    float: left;
+    clear: both;
+    margin: 11px 14px;
+    max-width: 400px;
+    background: white;
+    padding: 13px;
+    border: 2px;
+    border-radius: 17px;
+    text-align: center;
+    word-break: break-all;
+}
+
+#form {
+    width: 70%;
+    display: block;
+    margin: 6px auto;
+
+}
+
+#form input {
+    width: 86%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 22px;
+    border-radius: 22px;
+    border: none;
+    padding: 11px;
+    outline: none;
+
+}
+
+#headid {
+    display: block;
+    margin: 0px auto;
+    margin-top: 20px;
+    width: 70%;
+    height: 40px;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+#headid p {
+    margin: 0px;
+}
+
+.btn {
+    margin: 0px;
+    padding: 0px;
+    width: 92px;
+    height: 51px;
+    font-size: 27px;
+    border-radius: 22px;
+    border-style: none;
+}

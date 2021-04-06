@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Aprovel</title>
+    <style>
+        main {
+            width: 531px;
+            height: 240px;
+            border: 2px solid black;
+            /* display: flex; */
+            /* align-content: center; */
+            /* align-items: center; */
+            display: block;
+            margin: 150px auto;
+            background-color: #f1f5ff;
+        }
+
+        div,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        menu {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #input {
+            border: 2px solid black;
+            color: black;
+            width: 228px;
+            height: 21px;
+            border: rad;
+            /* border-radius: 10px; */
+            padding: 0px 0px 0px 7px;
+            
+        }
+
+        label {
+            font-size: 20px;
+            line-height: 60px;
+            font-weight: 600;
+        }
+
+        button {
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 6px;
+            padding: 3px 8px 3px 8px;
+            font-size: 21px;
+        }
+    </style>
+</head>
+
+<body style="    background: aliceblue;">
+    <main>
+        <form action="/Chat_Application" method="POST" id="form">
+            <h2 style="margin: 50px 0px 8px 0px">Entry Form</h2>
+            <div>
+                <label for="name">Name:- </label>
+                <input type="text" placeholder="Enter Your Name" id="input" name="name">
+            </div>
+            <button type="submit">Sumbit</button>
+        </form>
+    </main>
+</body>
+
+</html>
