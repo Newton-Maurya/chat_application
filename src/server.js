@@ -23,11 +23,11 @@ app.get('/', (req, res) => {
 app.post('/Chat_Application', (req, res) => {
     inputName = req.body.name;
     
-    res.redirect('/Chat_Application')
-})
-app.get('/Chat_Application', (req,res) => {
+    // res.redirect('/Chat_Application')
     res.status(200).render('index', {count:userName.length+1})
 })
+// app.get('/Chat_Application', (req,res) => {
+// })
 
 
 var inputName
