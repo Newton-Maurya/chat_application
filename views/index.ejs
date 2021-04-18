@@ -9,11 +9,18 @@
     <script src="/socket.io/socket.io.js"></script>
     <!-- <script type="text/javascript" src="./static/client.js"></script> -->
     <style>
+        *,
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
         .main-container {
-            display: block;
+            /* display: block;
             margin: 0px auto;
-            width: 70%;
-            height: 500px;
+            width: 70%; */
+            height: 420px;
             background: #d8e6fe;
             overflow-x: hidden;
             border-radius: 4px;
@@ -46,9 +53,8 @@
         }
 
         #form {
-            width: 70%;
-            display: block;
-            margin: 6px auto;
+            padding: 6px 0px;
+            background-color: #dadadade;
 
         }
 
@@ -67,14 +73,15 @@
         }
 
         #headid {
-            display: block;
-            margin: 0px auto;
-            margin-top: 20px;
-            width: 70%;
-            height: 40px;
-            background-color: black;
+            /* display: block; */
+            /* margin: 0px auto; */
+            /* margin-top: 20px; */
+            width: 100%;
+            height: 50px;
+            background-color: #2d5565;
             color: white;
             text-align: center;
+            display: flex;
         }
 
         #headid p {
@@ -90,22 +97,255 @@
             border-radius: 22px;
             border-style: none;
         }
+
+        .container {
+            flex-direction: column;
+            display: flex;
+            width: 99.7%;
+            border: 2px solid black;
+            height: 653px;
+        }
+
+        .show_users {
+            width: 30%;
+            /* border: 2px solid blue; */
+            background: #cacaca24;
+            height: 543px;
+            overflow-x: hidden;
+        }
+
+        #search {
+            padding: 5px 5px 5px 20px;
+            font-size: 25px;
+            font-family: cursive;
+            margin: 10px 8px;
+            width: 90%;
+            outline: none;
+            border: deepskyblue;
+            border-radius: 20px;
+        }
+
+        .user {
+            margin: 11px 0px;
+            /* border: 2px solid #9f9fec; */
+            background: white;
+            box-shadow: 0px 1px 10px 7px #b2b2bf;
+            width: 95%;
+            display: block;
+            margin: 11px auto;
+            padding: 10px 0px;
+            border-radius: 5px;
+            height: 50px;
+        }
+
+        .user:active {
+            background-color: rgb(95, 95, 175);
+        }
+
+        .msg_count {
+            display: flex;
+            color: aliceblue;
+            font-size: 30px;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            width: 50px;
+            float: right;
+            /* margin: 0; */
+            margin-right: 30px;
+            background: #058205;
+            /* padding: 16px; */
+            border-radius: 61%;
+        }
+
+        .user_name {
+            display: inline-block;
+            margin: 0px 0px 5px 49px;
+        }
+
+        .last_msg {
+            margin-left: 60px;
+            color: #717171;
+        }
+
+        .userInfo {
+            width: 100%;
+            height: 50px;
+            background-color: rgb(0, 138, 115);
+            color: white;
+        }
+
+        .infoType {
+            background-color: teal;
+            width: 100%;
+            height: 60px;
+            display: flex;
+        }
+
+        .userName_Info {
+            color: white;
+            margin: 0px 0px 0px 126px;
+            padding: 16px 0px;
+        }
+
+        .Ori_user_name {
+            margin: 24px 0px 0px 50px;
+            color: white;
+        }
+
+        #public_group_id:hover {
+            background-color: black;
+            color: white;
+            padding: 0px 8px 0px 8px;
+            border-radius: 5px;
+        }
+
+        .bccolor {
+            background-color: red;
+        }
     </style>
 </head>
 
-<body style="    background: #8e91ff;">
-    <header id="headid">Total Online Users<p id="onlinecounter">
-            <%=count%>
-        </p>
-    </header>
-    <div class="main-container" id="message">
+<body>
+    <div class="container">
+        <header id="headid">
+            <div style="width: 415px;">
+                <h2>
+                    Total Online Users
+                </h2>
+                <h4 id="onlinecounter">
+                    <%=data[0].count%>
+                </h4>
+            </div>
+            <div style="cursor: pointer;" id="public_group_id">
+                <h2 class="userName_Info_Head" id="userName_Info_Head">Public Group</h2>
+                <h4 class="Ori_user_name_Head" id="Ori_user_name_Head">public_group</h4>
+            </div>
+            <div style="width: 415px; width: 415px; display: flex; align-items: center; justify-content: center;">
+                <h1 id="hour">11:</h1>
+                <h1 id="minute">16:</h1>
+                <h1 id="second">40</h1>
+            </div>
+            <div>
+                <h2 id="userName_head" style="margin: 10px 0px 0px 0px;">
+                    <%=data[3].OurName%> <span
+                            style="padding: 0px 13px; margin-left: 6px; border-radius: 50%; background-color: #15ce2c;"></span>
+                </h2>
+            </div>
+        </header>
+        <div style="display: flex; width: 100%;">
+
+            <div class="show_users" id="show_users">
+                <div style="background: #efefeffa;">
+                    <input type="search" name="search" id="search" placeholder="Search user name">
+                </div>
+                <div id="userList">
+                    <% for (var i=0; i <data[1].name.length; i++ ) { %>
+                        <div class="user">
+                            <h3 class="user_name">
+                                <%=data[1].name[i]%>
+                            </h3>
+                            <span> (</span>
+                            <span>
+                                <%=data[2].userName[i]%>
+                            </span>
+                            <span> )</span>
+                            <h5 class="msg_count">10</h5>
+                        </div>
+                        <% } %>
+
+                            <%if (data[0].count==1) { %>
+                                <h1 style="color: #7a7b71; margin: 66px 90px;" id="no_user">No one online</h1>
+                                <% } %>
+                </div>
+            </div>
+            <div style="width: 70%;" id="msgf_container">
+                <div class="infoType" id="infoType">
+                    <h2 class="userName_Info" id="userName_Info">Public Group</h2>
+                    <h4 class="Ori_user_name" id="Ori_user_name">public_group</h4>
+                </div>
+                <div class="main-container" id="message">
+                </div>
+                <form action="" method="" id="form">
+                    <input type="text" placeholder="Enter Your Text On Here" id="inputMessage" autocapitalize="off">
+                    <button class="btn" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <form action="" method="" id="form">
-        <input type="text" placeholder="Enter Your Text On Here" id="inputMessage" autocapitalize="off">
-        <button class="btn" type="submit">Send</button>
-    </form>
     <!-- JavaScript Start -->
     <script>
+        // Message Object that contains send and receive message with name of the client
+        // let data = <%-data[2].userName%>
+        const userid_data_obj = {};
+        const message_obj = {
+            'public_group': { 'message': [] },
+        }
+
+        function func() {
+
+            const date = new Date()
+            document.getElementById('hour').innerText = `${date.getHours()}:`;
+            document.getElementById('minute').innerText = `${date.getMinutes()}`;
+            document.getElementById('second').innerText = `:${date.getSeconds()}`;
+        }
+        setInterval(func, 1000)
+        const user_name_var = [];
+        const user_id_arr = []
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const mainData = document.getElementById('userList');
+            const dataCount = document.getElementById('onlinecounter').innerText - 1;
+            const fixID = "userF";
+            for (let i = 0; i < dataCount; i++) {
+                const setA = mainData.getElementsByTagName('div')[i];
+                setA.setAttribute('id', `userF${i}`);
+            }
+
+            if (dataCount + 1 >= 2) {
+                for (let i = 0; i < dataCount; i++) {
+                    bcchange = document.getElementById(`userF${i}`)
+                    const usrName = document.getElementById(`userF${i}`).getElementsByTagName('span')[1].innerText;
+                    const string = usrName.concat(' a')
+                    const sdata = string.slice(0, -3);
+                    message_obj[sdata] = { 'message': [] };
+                    user_id_arr.push(usrName);
+                    // userid_data_obj[]
+                    bcchange.addEventListener('click', (event) => {
+                        console.log("Its Working Fine");
+                        const text = document.getElementById(`userF${i}`).getElementsByTagName('h3')[0].innerText;
+                        const textUser_Name = document.getElementById(`userF${i}`).getElementsByTagName('span')[1].innerText;
+                        document.getElementById('userName_Info').innerText = text;
+                        document.getElementById('Ori_user_name').innerText = textUser_Name;
+                        document.getElementById('message').innerHTML = ' '
+                        const ArrDatas = message_obj[usrName.concat(' a').slice(0, -3)];
+                        if (ArrDatas.message.length >= 1) {
+                        for (let i = 0; i < ArrDatas.message.length; i++) {
+                            if (ArrDatas.message[i].left) {
+                                const msgcontainer = document.createElement('h2')
+                                msgcontainer.classList.add('recmsg')
+                                msgcontainer.innerText = ArrDatas.message[i].left;
+                                message.appendChild(msgcontainer)
+                            }
+                            else {
+                                const msgcontainer = document.createElement('h2');
+                                msgcontainer.classList.add('sendmsg');
+                                msgcontainer.innerText = ArrDatas.message[i].right;
+                                message.appendChild(msgcontainer);
+                            }
+                        }
+                    }
+                        
+
+                    })
+                }
+            }
+        });
+
+        console.log(user_id_arr);
+        console.log(user_name_var);
+
+        // Socket connection from server 
         const socket = io();
         const recmsg = document.getElementById('inputMessage');
         const form = document.getElementById("form");
@@ -113,52 +353,216 @@
         var audio = new Audio();
         audio.src = 'tune.mp3';
         const onlinecount = document.getElementById("onlinecounter")
+        // For User List
+        const userBelow = document.getElementById('userList');
 
         form.addEventListener('submit', function (event) {
             const inputmsg = recmsg.value
+            const user_name = document.getElementById('Ori_user_name').innerText;
             event.preventDefault();
             if (inputmsg.length != 0) {
-                const msgcontainer = document.createElement('h2')
-                audio.play();
-                msgcontainer.classList.add('sendmsg')
+                const msgcontainer = document.createElement('h2');
+                msgcontainer.classList.add('sendmsg');
                 msgcontainer.innerText = inputmsg;
-                message.appendChild(msgcontainer)
-                socket.emit('send', inputmsg)
+                message.appendChild(msgcontainer);
+                socket.emit('send', { 'user_name': user_name, 'message': inputmsg });
                 // onlinecount.innerText = inputmsg.length
+                const data = message_obj[user_name]
+                data.message.push({ 'right': `${inputmsg}` })
+                console.log(message_obj);
                 recmsg.value = ""
             }
-            else {
-                alert('Please enter something then send')
-            }
+            // else {
+            //     alert('Please enter something then send')
+            // }
 
 
         })
+
         // const name = prompt("Enter Your Name");
-        socket.emit('new-user-join', name)
-
+        // socket.emit('new-user-join', name)
+        var idcounter = 0;
         socket.on('new-user', (name) => {
-            console.log(name);
-            const msgcontainer = document.createElement('h2')
-            msgcontainer.innerText = `'${name}' is join the chat`
+            const user_name = document.getElementById('Ori_user_name').innerText;
+            
+            user_id_arr.push(name.username);
+            message_obj[name.username] = { 'message': [] };
+            var fixid = `user${idcounter}`;
+            idcounter++
 
-            msgcontainer.classList.add('recmsg')
-            message.appendChild(msgcontainer)
+            // When new user join then joining message appears on the public group
+            if(user_name == 'public_group' ) {
+                    const msgcontainer = document.createElement('h2')
+                    msgcontainer.innerText = `'${name.name}' is join the chat`
+                    msgcontainer.classList.add('recmsg')
+                    message.appendChild(msgcontainer)
+            }
+
+            // for showing user list 
+            const mainDiv = document.createElement('div');
+            mainDiv.classList.add('user')
+            mainDiv.setAttribute('id', fixid)
+            const username = document.createElement('h3');
+            username.classList.add('user_name')
+            username.setAttribute('id', 'user_name')
+            const brkt1 = document.createElement('span')
+            const brkt2 = document.createElement('span')
+            const userid = document.createElement('span')
+            const msgcount = document.createElement('h5')
+            msgcount.classList.add('msg_count')
+            username.innerText = name.name;
+            userid.innerText = name.username;
+            msgcount.innerText = 10;
+            brkt1.innerText = " (";
+            brkt2.innerText = ")";
+            mainDiv.appendChild(username);
+            mainDiv.appendChild(brkt1);
+            mainDiv.appendChild(userid);
+            mainDiv.appendChild(brkt2);
+            mainDiv.appendChild(msgcount);
+            // console.log(mainDiv);
+            userBelow.appendChild(mainDiv)
+
+            const dataCount = document.getElementById('onlinecounter').innerText;
+
+            console.log(dataCount);
+            for (let i = 0; i < dataCount; i++) {
+                bcchange = document.getElementById(`user${i}`)
+                bcchange.addEventListener('click', (event) => {
+                    const text = document.getElementById(`user${i}`).getElementsByTagName('h3')[0].innerText
+                    document.getElementById('userName_Info').innerText = text;
+                    const textUser_Name = document.getElementById(`user${i}`).getElementsByTagName('span')[1].innerText;
+                    document.getElementById('Ori_user_name').innerText = textUser_Name;
+                    document.getElementById('message').innerHTML = ' '
+                    const ArrDatas = message_obj[textUser_Name]
+                    if (ArrDatas.message.length >= 1) {
+                        for (let i = 0; i < ArrDatas.message.length; i++) {
+                            if (ArrDatas.message[i].left) {
+                                const msgcontainer = document.createElement('h2')
+                                msgcontainer.classList.add('recmsg')
+                                msgcontainer.innerText = ArrDatas.message[i].left;
+                                message.appendChild(msgcontainer)
+                            }
+                            else {
+                                const msgcontainer = document.createElement('h2');
+                                msgcontainer.classList.add('sendmsg');
+                                msgcontainer.innerText = ArrDatas.message[i].right;
+                                message.appendChild(msgcontainer);
+                            }
+                        }
+
+
+                    }
+                })
+            }
+
+
+            form.addEventListener('submit', function (event) {
+                const inputmsg = recmsg.value
+                event.preventDefault();
+                const user_name = document.getElementById('Ori_user_name').innerText;
+                if (inputmsg.length != 0) {
+                    const msgcontainer = document.createElement('h2')
+                    // audio.play();
+                    msgcontainer.classList.add('sendmsg')
+                    msgcontainer.innerText = inputmsg;
+                    console.log('this is input message send by an user');
+                    message.appendChild(msgcontainer)
+                    //  sending message to particutor user or in public group
+
+                    socket.emit('send', { 'user_name': "THis is usernameporibo", 'message': inputmsg })
+                    // onlinecount.innerText = inputmsg.length
+                    recmsg.value = ""
+                }
+                // else {
+                //     alert('Please enter something then send')
+                // }
+
+
+            })
+
+            // }
+            // bcchange2.addEventListener('click', (event) => {
+            //     alert("hello, Jay guru maharaj ji")
+            // })
+            // const lastmsg = document.createElement('p')
+            // lastmsg.classList.add('last_msg')
         });
 
-        const onlinecounter = document.getElementById('onlinecounter')
-        socket.on('online-counter', (count) => {
-            onlinecounter.innerText = count;
-        });
+
+
+
+        // const onlinecounter = document.getElementById('onlinecounter')
+        // socket.on('online-counter', (count) => {
+        //     // const num = 2;
+        //     // console.log("Oneline counter is work fine", count.count);
+        //     onlinecounter.innerText = count.count;
+        //     if (count.count-1 === 1) {
+        //         document.getElementById('no_user').style.display = 'none'
+        //     }
+        // });
 
         socket.on('receive', (data) => {
-            console.log(data.message)
-            const msgcontainer = document.createElement('h2')
-            msgcontainer.classList.add('recmsg')
-            msgcontainer.innerText = `${data.name}:- ${data.message}`;
-            message.appendChild(msgcontainer)
+
+            const user_name = document.getElementById('Ori_user_name').innerText;
+            const datas = message_obj[data.to_name]
+            datas.message.push({ 'left': `${data.message}` })
+            console.log(message_obj);
+
+            console.log(`${user_name} and from server ${data.to_name}`);
+
+            if (data.to_name != 'public_group') {
+                if(user_name === data.to_name){
+                    const msgcontainer = document.createElement('h2')
+                    msgcontainer.classList.add('recmsg')
+                    msgcontainer.innerText = `${data.message}`;
+                    message.appendChild(msgcontainer)
+                }
+            }
+            if(user_name === data.to_name && user_name === 'public_group') {
+                const msgcontainer = document.createElement('h2')
+                msgcontainer.classList.add('recmsg')
+                msgcontainer.innerText = `${data.name}:- ${data.message}`;
+                message.appendChild(msgcontainer)
+
+            }
         });
 
-    </script>
+        // When user disconnected
+        
+        socket.on('user_disconnect', (data) => {
+
+            // alert(`${data.user_id} is disconnected`)
+
+            for(let i=0; i < user_id_arr.length; i++) {
+                console.log(`It's not work properly and length of array ${user_id_arr.length}  and ${data.user_id} == ${user_id_arr[i]} and user list ${user_id_arr} `)
+                const obj_1 = {
+                    'abc':'dddd'
+                }
+                var uname = user_id_arr[i];
+                const udata1 = uname.concat('  a');
+                const udata2 = `${data.user_id}   a`;
+                if(udata2 === udata1) {
+                    user_id_arr.splice(i, 1)
+                    const aaa = document.getElementsByClassName('user')[i].remove();
+                }
+                else {
+                    if(data.user_id === user_id_arr[i]) {
+                        const aaa = document.getElementsByClassName('user')[i].remove();
+                        console.log('Its work Properly and nice')
+                    }
+                }
+                
+            }
+        });
+        const onlinecounter = document.getElementById('onlinecounter')
+        socket.on('online-counter', (count) => {
+            onlinecounter.innerText = count.count;
+            if (count.count-1 === 1) {
+                document.getElementById('no_user').style.display = 'none'
+            }
+        });
+        </script>
 </body>
 
 </html>
