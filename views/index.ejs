@@ -20,7 +20,7 @@
             /* display: block;
             margin: 0px auto;
             width: 70%; */
-            height: 420px;
+            height: 479px;
             background: #d8e6fe;
             overflow-x: hidden;
             border-radius: 4px;
@@ -110,7 +110,7 @@
             width: 30%;
             /* border: 2px solid blue; */
             background: #cacaca24;
-            height: 543px;
+            height: 600px;
             overflow-x: hidden;
         }
 
@@ -193,15 +193,17 @@
             color: white;
         }
 
-        #public_group_id:hover {
-            background-color: black;
+        /* #public_group_id:hover {
             color: white;
             padding: 0px 8px 0px 8px;
-            border-radius: 5px;
-        }
+        } */
 
         .bccolor {
             background-color: red;
+        }
+        #public_group_id:active{
+            border-radius: 5px;
+            background-color: rgb(95, 95, 175);
         }
     </style>
 </head>
@@ -209,28 +211,29 @@
 <body>
     <div class="container">
         <header id="headid">
-            <div style="width: 415px;">
-                <h2>
-                    Total Online Users
+            <div style="width: 415px; margin-left: 65px;">
+                <h2 style="margin: 10px 0px;">
+                    Online
+                    <%=data[0].count%>
                 </h2>
-                <h4 id="onlinecounter">
+                <h4 style="display: none;" id="onlinecounter">
                     <%=data[0].count%>
                 </h4>
             </div>
             <div style="cursor: pointer;" id="public_group_id">
-                <h2 class="userName_Info_Head" id="userName_Info_Head">Public Group</h2>
-                <h4 class="Ori_user_name_Head" id="Ori_user_name_Head">public_group</h4>
+                <h2 style="margin: 10px 0px; " class="userName_Info_Head" id="userName_Info_Head">Public Group</h2>
+                <h4 style="display: none; " class="Ori_user_name_Head" id="Ori_user_name_Head">public_group</h4>
             </div>
-            <div style="width: 415px; width: 415px; display: flex; align-items: center; justify-content: center;">
-                <h1 id="hour">11:</h1>
-                <h1 id="minute">16:</h1>
-                <h1 id="second">40</h1>
+            <div style="font-size: 15px; width: 415px; width: 415px; display: flex; align-items: center; justify-content: center;">
+                <h1 id="hour"></h1>
+                <h1 id="minute"></h1>
+                <h1 id="second"></h1>
             </div>
-            <div>
-                <h2 id="userName_head" style="margin: 10px 0px 0px 0px;">
-                    <%=data[3].OurName%> <span
-                            style="padding: 0px 13px; margin-left: 6px; border-radius: 50%; background-color: #15ce2c;"></span>
+            <div style="margin: 10px 0px;">
+                <h2 id="userName_head" style="margin: 10px 0px 0px 0px; display: contents;">
+                    <%=data[3].OurName%> 
                 </h2>
+                <span style="padding: 0px 9px; margin-left: 6px; border-radius: 50%; background-color: #15ce2c;"></span>
             </div>
         </header>
         <div style="display: flex; width: 100%;">
@@ -284,10 +287,12 @@
 
         function func() {
 
-            const date = new Date()
-            document.getElementById('hour').innerText = `${date.getHours()}:`;
-            document.getElementById('minute').innerText = `${date.getMinutes()}`;
-            document.getElementById('second').innerText = `:${date.getSeconds()}`;
+            const date = new Date();
+                (date.getHours() < 10) ? document.getElementById('hour').innerText = `0${date.getHours()}:` : document.getElementById('hour').innerText = `${date.getHours()}:`;
+
+                (date.getMinutes() < 10) ? document.getElementById('minute').innerText = `0${date.getMinutes()}`: document.getElementById('minute').innerText = `${date.getMinutes()}`;
+
+                (date.getSeconds() < 10) ? document.getElementById('second').innerText = `:0${date.getSeconds()}` : document.getElementById('second').innerText = `:${date.getSeconds()}`;
         }
         setInterval(func, 1000)
         const user_name_var = [];
@@ -310,7 +315,6 @@
                     const sdata = string.slice(0, -3);
                     message_obj[sdata] = { 'message': [] };
                     user_id_arr.push(usrName);
-                    // userid_data_obj[]
                     bcchange.addEventListener('click', (event) => {
                         console.log("Its Working Fine");
                         const text = document.getElementById(`userF${i}`).getElementsByTagName('h3')[0].innerText;
@@ -320,22 +324,22 @@
                         document.getElementById('message').innerHTML = ' '
                         const ArrDatas = message_obj[usrName.concat(' a').slice(0, -3)];
                         if (ArrDatas.message.length >= 1) {
-                        for (let i = 0; i < ArrDatas.message.length; i++) {
-                            if (ArrDatas.message[i].left) {
-                                const msgcontainer = document.createElement('h2')
-                                msgcontainer.classList.add('recmsg')
-                                msgcontainer.innerText = ArrDatas.message[i].left;
-                                message.appendChild(msgcontainer)
-                            }
-                            else {
-                                const msgcontainer = document.createElement('h2');
-                                msgcontainer.classList.add('sendmsg');
-                                msgcontainer.innerText = ArrDatas.message[i].right;
-                                message.appendChild(msgcontainer);
+                            for (let i = 0; i < ArrDatas.message.length; i++) {
+                                if (ArrDatas.message[i].left) {
+                                    const msgcontainer = document.createElement('h2')
+                                    msgcontainer.classList.add('recmsg')
+                                    msgcontainer.innerText = ArrDatas.message[i].left;
+                                    message.appendChild(msgcontainer)
+                                }
+                                else {
+                                    const msgcontainer = document.createElement('h2');
+                                    msgcontainer.classList.add('sendmsg');
+                                    msgcontainer.innerText = ArrDatas.message[i].right;
+                                    message.appendChild(msgcontainer);
+                                }
                             }
                         }
-                    }
-                        
+
 
                     })
                 }
@@ -377,25 +381,54 @@
             // }
 
 
+        });
+
+        //  For public group
+        const dataCount = document.getElementById('onlinecounter').innerText - 1;
+        const click = document.getElementById('public_group_id')
+        const usr_id_from_top = document.getElementById('Ori_user_name_Head');
+        const usr_id_text = usr_id_from_top.innerText;
+        click.addEventListener('click', (event) => {
+            document.getElementById('message').innerHTML = ' '
+            document.getElementById('userName_Info').innerText = 'Public Group';
+            document.getElementById('Ori_user_name').innerText = usr_id_text;
+            const ArrDatas = message_obj['public_group'];                        
+            if (ArrDatas.message.length >= 1) {
+                for (let i = 0; i < ArrDatas.message.length; i++) {
+                    if (ArrDatas.message[i].left) {
+                        const msgcontainer = document.createElement('h2')
+                        msgcontainer.classList.add('recmsg')
+                        msgcontainer.innerText = ArrDatas.message[i].left;
+                        message.appendChild(msgcontainer)
+                    }
+                    else {
+                        const msgcontainer = document.createElement('h2');
+                        msgcontainer.classList.add('sendmsg');
+                        msgcontainer.innerText = ArrDatas.message[i].right;
+                        message.appendChild(msgcontainer);
+                    }
+                }
+            }  
         })
+
 
         // const name = prompt("Enter Your Name");
         // socket.emit('new-user-join', name)
         var idcounter = 0;
         socket.on('new-user', (name) => {
             const user_name = document.getElementById('Ori_user_name').innerText;
-            
+
             user_id_arr.push(name.username);
             message_obj[name.username] = { 'message': [] };
             var fixid = `user${idcounter}`;
             idcounter++
 
             // When new user join then joining message appears on the public group
-            if(user_name == 'public_group' ) {
-                    const msgcontainer = document.createElement('h2')
-                    msgcontainer.innerText = `'${name.name}' is join the chat`
-                    msgcontainer.classList.add('recmsg')
-                    message.appendChild(msgcontainer)
+            if (user_name == 'public_group') {
+                const msgcontainer = document.createElement('h2')
+                msgcontainer.innerText = `'${name.name}' is join the chat`
+                msgcontainer.classList.add('recmsg')
+                message.appendChild(msgcontainer)
             }
 
             // for showing user list 
@@ -506,63 +539,63 @@
 
             const user_name = document.getElementById('Ori_user_name').innerText;
             const datas = message_obj[data.to_name]
-            datas.message.push({ 'left': `${data.message}` })
             console.log(message_obj);
-
+            
             console.log(`${user_name} and from server ${data.to_name}`);
-
+            
             if (data.to_name != 'public_group') {
-                if(user_name === data.to_name){
+                datas.message.push({ 'left': `${data.message}` })
+                if (user_name === data.to_name) {
                     const msgcontainer = document.createElement('h2')
                     msgcontainer.classList.add('recmsg')
                     msgcontainer.innerText = `${data.message}`;
                     message.appendChild(msgcontainer)
                 }
             }
-            if(user_name === data.to_name && user_name === 'public_group') {
+            if (user_name === data.to_name && user_name === 'public_group') {
+                datas.message.push({ 'left': `${data.name}:- ${data.message}` })
                 const msgcontainer = document.createElement('h2')
                 msgcontainer.classList.add('recmsg')
                 msgcontainer.innerText = `${data.name}:- ${data.message}`;
                 message.appendChild(msgcontainer)
-
             }
         });
 
         // When user disconnected
-        
+
         socket.on('user_disconnect', (data) => {
 
             // alert(`${data.user_id} is disconnected`)
 
-            for(let i=0; i < user_id_arr.length; i++) {
+            for (let i = 0; i < user_id_arr.length; i++) {
                 console.log(`It's not work properly and length of array ${user_id_arr.length}  and ${data.user_id} == ${user_id_arr[i]} and user list ${user_id_arr} `)
                 const obj_1 = {
-                    'abc':'dddd'
+                    'abc': 'dddd'
                 }
                 var uname = user_id_arr[i];
                 const udata1 = uname.concat('  a');
                 const udata2 = `${data.user_id}   a`;
-                if(udata2 === udata1) {
+                if (udata2 === udata1) {
                     user_id_arr.splice(i, 1)
                     const aaa = document.getElementsByClassName('user')[i].remove();
                 }
                 else {
-                    if(data.user_id === user_id_arr[i]) {
+                    if (data.user_id === user_id_arr[i]) {
                         const aaa = document.getElementsByClassName('user')[i].remove();
                         console.log('Its work Properly and nice')
                     }
                 }
-                
+
             }
         });
         const onlinecounter = document.getElementById('onlinecounter')
         socket.on('online-counter', (count) => {
             onlinecounter.innerText = count.count;
-            if (count.count-1 === 1) {
+            if (count.count - 1 === 1) {
                 document.getElementById('no_user').style.display = 'none'
             }
         });
-        </script>
+    </script>
 </body>
 
 </html>
