@@ -212,7 +212,7 @@
     <div class="container">
         <header id="headid">
             <div style="width: 415px; margin-left: 65px;">
-                <h2 style="margin: 10px 0px;">
+                <h2 style="margin: 10px 0px;" id="new_onlinecounter">
                     Online
                     <%=data[0].count%>
                 </h2>
@@ -256,13 +256,13 @@
                             <h5 class="msg_count">10</h5>
                         </div>
                         <% } %>
-
-                            <%if (data[0].count==1) { %>
+                        
+                        <%if (data[0].count==1) { %>
                                 <h1 style="color: #7a7b71; margin: 66px 90px;" id="no_user">No one online</h1>
                                 <% } %>
-                </div>
-            </div>
-            <div style="width: 70%;" id="msgf_container">
+                            </div>
+                        </div>
+                        <div style="width: 70%;" id="msgf_container">
                 <div class="infoType" id="infoType">
                     <h2 class="userName_Info" id="userName_Info">Public Group</h2>
                     <h4 class="Ori_user_name" id="Ori_user_name">public_group</h4>
@@ -280,6 +280,7 @@
     <script>
         // Message Object that contains send and receive message with name of the client
         // let data = <%-data[2].userName%>
+        const onlinecount = document.getElementById("onlinecounter");
         const userid_data_obj = {};
         const message_obj = {
             'public_group': { 'message': [] },
@@ -348,7 +349,41 @@
 
         console.log(user_id_arr);
         console.log(user_name_var);
+// When user click on the particular user
 
+        if(onlinecount >= 2) {
+            for (let i = 0; i < dataCount; i++) {
+                bcchange = document.getElementById(`user${i}`)
+                bcchange.addEventListener('click', (event) => {
+                    const text = document.getElementById(`user${i}`).getElementsByTagName('h3')[0].innerText
+                    document.getElementById('userName_Info').innerText = text;
+                    const textUser_Name = document.getElementById(`user${i}`).getElementsByTagName('span')[1].innerText;
+                    document.getElementById('Ori_user_name').innerText = textUser_Name;
+                    document.getElementById('message').innerHTML = ' '
+                    const ArrDatas = message_obj[textUser_Name]
+                    if (ArrDatas.message.length >= 1) {
+                        for (let i = 0; i < ArrDatas.message.length; i++) {
+                            if (ArrDatas.message[i].left) {
+                                const msgcontainer = document.createElement('h2')
+                                msgcontainer.classList.add('recmsg')
+                                msgcontainer.innerText = ArrDatas.message[i].left;
+                                message.appendChild(msgcontainer)
+                            }
+                            else {
+                                const msgcontainer = document.createElement('h2');
+                                msgcontainer.classList.add('sendmsg');
+                                msgcontainer.innerText = ArrDatas.message[i].right;
+                                message.appendChild(msgcontainer);
+                            }
+                        }
+                    }
+                })
+            }
+        }
+            
+
+            
+            
         // Socket connection from server 
         const socket = io();
         const recmsg = document.getElementById('inputMessage');
@@ -356,7 +391,6 @@
         const message = document.getElementById('message')
         var audio = new Audio();
         audio.src = 'tune.mp3';
-        const onlinecount = document.getElementById("onlinecounter")
         // For User List
         const userBelow = document.getElementById('userList');
 
@@ -375,19 +409,14 @@
                 data.message.push({ 'right': `${inputmsg}` })
                 console.log(message_obj);
                 recmsg.value = ""
-            }
-            // else {
-            //     alert('Please enter something then send')
-            // }
-
-
+            }   
         });
 
-        //  For public group
-        const dataCount = document.getElementById('onlinecounter').innerText - 1;
-        const click = document.getElementById('public_group_id')
-        const usr_id_from_top = document.getElementById('Ori_user_name_Head');
-        const usr_id_text = usr_id_from_top.innerText;
+            //  For public group
+            const dataCount = document.getElementById('onlinecounter').innerText
+            const click = document.getElementById('public_group_id')
+            const usr_id_from_top = document.getElementById('Ori_user_name_Head');
+            const usr_id_text = usr_id_from_top.innerText;
         click.addEventListener('click', (event) => {
             document.getElementById('message').innerHTML = ' '
             document.getElementById('userName_Info').innerText = 'Public Group';
@@ -458,7 +487,7 @@
 
             const dataCount = document.getElementById('onlinecounter').innerText;
 
-            console.log(dataCount);
+            console.log('this is dadacount', dataCount);
             for (let i = 0; i < dataCount; i++) {
                 bcchange = document.getElementById(`user${i}`)
                 bcchange.addEventListener('click', (event) => {
@@ -490,29 +519,23 @@
             }
 
 
-            form.addEventListener('submit', function (event) {
-                const inputmsg = recmsg.value
-                event.preventDefault();
-                const user_name = document.getElementById('Ori_user_name').innerText;
-                if (inputmsg.length != 0) {
-                    const msgcontainer = document.createElement('h2')
-                    // audio.play();
-                    msgcontainer.classList.add('sendmsg')
-                    msgcontainer.innerText = inputmsg;
-                    console.log('this is input message send by an user');
-                    message.appendChild(msgcontainer)
-                    //  sending message to particutor user or in public group
-
-                    socket.emit('send', { 'user_name': "THis is usernameporibo", 'message': inputmsg })
-                    // onlinecount.innerText = inputmsg.length
-                    recmsg.value = ""
-                }
-                // else {
-                //     alert('Please enter something then send')
-                // }
-
-
-            })
+        form.addEventListener('submit', function (event) {
+            const inputmsg = recmsg.value
+            const user_name = document.getElementById('Ori_user_name').innerText;
+            event.preventDefault();
+            if (inputmsg.length != 0) {
+                const msgcontainer = document.createElement('h2');
+                msgcontainer.classList.add('sendmsg');
+                msgcontainer.innerText = inputmsg;
+                message.appendChild(msgcontainer);
+                socket.emit('send', { 'user_name': user_name, 'message': inputmsg });
+                // onlinecount.innerText = inputmsg.length
+                const data = message_obj[user_name]
+                data.message.push({ 'right': `${inputmsg}` })
+                console.log(message_obj);
+                recmsg.value = ""
+            }   
+        });
 
             // }
             // bcchange2.addEventListener('click', (event) => {
@@ -536,28 +559,34 @@
         // });
 
         socket.on('receive', (data) => {
-
             const user_name = document.getElementById('Ori_user_name').innerText;
-            const datas = message_obj[data.to_name]
+            const datas = message_obj[data.to_name];
             console.log(message_obj);
             
             console.log(`${user_name} and from server ${data.to_name}`);
             
             if (data.to_name != 'public_group') {
-                datas.message.push({ 'left': `${data.message}` })
+                datas.message.push({ 'left': `${data.message}` });
                 if (user_name === data.to_name) {
                     const msgcontainer = document.createElement('h2')
-                    msgcontainer.classList.add('recmsg')
+                    msgcontainer.classList.add('recmsg');
                     msgcontainer.innerText = `${data.message}`;
-                    message.appendChild(msgcontainer)
+                    message.appendChild(msgcontainer);
+                }
+                else {
+                    for (let i = 0; i < dataCount; i++) {
+                        const username_data = document.getElementsByClassName('user')
+                    }
                 }
             }
-            if (user_name === data.to_name && user_name === 'public_group') {
-                datas.message.push({ 'left': `${data.name}:- ${data.message}` })
-                const msgcontainer = document.createElement('h2')
-                msgcontainer.classList.add('recmsg')
-                msgcontainer.innerText = `${data.name}:- ${data.message}`;
-                message.appendChild(msgcontainer)
+            if (data.to_name === 'public_group') {
+                datas.message.push({ 'left': `${data.name}:- ${data.message}` });
+                if (data.to_name === user_name) {
+                    const msgcontainer = document.createElement('h2');
+                    msgcontainer.classList.add('recmsg');
+                    msgcontainer.innerText = `${data.name}:- ${data.message}`;
+                    message.appendChild(msgcontainer);
+                }
             }
         });
 
@@ -581,6 +610,7 @@
                 }
                 else {
                     if (data.user_id === user_id_arr[i]) {
+                        user_id_arr.splice(i, 1)
                         const aaa = document.getElementsByClassName('user')[i].remove();
                         console.log('Its work Properly and nice')
                     }
@@ -588,10 +618,14 @@
 
             }
         });
-        const onlinecounter = document.getElementById('onlinecounter')
-        socket.on('online-counter', (count) => {
-            onlinecounter.innerText = count.count;
-            if (count.count - 1 === 1) {
+        socket.on('online-counter', (data) => {
+            const onlinecounter = document.getElementById('new_onlinecounter')
+            const onlinecounter2 = document.getElementById('onlinecounter')
+
+            console.log(data);
+            onlinecounter.innerText = `Online ${data.count}`;
+            onlinecounter2.innerText = data.count;
+            if (data.count - 1 === 1) {
                 document.getElementById('no_user').style.display = 'none'
             }
         });
